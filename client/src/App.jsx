@@ -11,12 +11,12 @@ const App = () => {
 
   return (
     <Routes>
-      {/* Redirect to login if not authenticated, otherwise go to MenuPage */}
+      {/* Redirect to menu if logged in, otherwise go to login */}
       <Route path="/" element={token ? <Navigate to="/menu" /> : <Navigate to="/login" />} />
 
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/menu" element={<MenuPage />} />
+      <Route path="/menu" element={<MenuPage />} /> {/* Public route for the menu */}
 
       {/* Protect Admin Dashboard */}
       <Route

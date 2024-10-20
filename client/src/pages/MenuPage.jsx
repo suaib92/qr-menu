@@ -1,9 +1,12 @@
 // src/pages/MenuPage.js
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const MenuPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null); // To capture and display errors
+  const navigate = useNavigate(); // Initialize useNavigate
+  const token = localStorage.getItem('token'); // Check if user is logged in
 
   useEffect(() => {
     fetchMenuItems();
@@ -51,8 +54,21 @@ const MenuPage = () => {
           ))}
         </div>
       )}
+
+      {/* Conditional button for logged-in users */}
+      {token && (
+        <div className="text-center mt-6">
+          <button
+            onClick={() => navigate('/admin')} // Navigate to admin dashboard
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+          >
+            Go to Admin Dashboard
+          </button>
+        </div>
+      )}
     </div>
   );
+  
 };
 
 export default MenuPage;
