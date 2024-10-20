@@ -1,9 +1,11 @@
 // src/pages/MenuPage.js
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const MenuPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false); // State to track admin status
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -19,7 +21,15 @@ const MenuPage = () => {
       }
     };
 
+    const checkAdminStatus = () => {
+      const userRole = localStorage.getItem('userRole'); // For example, from local storage
+      console.log('User role:', userRole); // Debugging log
+      setIsAdmin(userRole === 'admin'); // Check if the role is 'admin'
+      console.log('Is Admin:', userRole === 'admin'); // Debugging log
+    };
+
     fetchMenuItems();
+    checkAdminStatus(); // Check admin status on component mount
   }, []);
 
   if (loading) return <div>Loading...</div>;
@@ -28,6 +38,16 @@ const MenuPage = () => {
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Menu</h1>
+        
+        {/* Admin Navigation Link */}
+        {isAdmin && (
+          <div className="mb-4 text-center">
+            <Link to="/admin" className="text-blue-500 hover:underline">
+              Go to Admin Dashboard
+            </Link>
+          </div>
+        )}
+        
         <ul className="divide-y divide-gray-200">
           {menuItems.map((item) => (
             <li key={item._id} className="flex justify-between items-center p-4">
