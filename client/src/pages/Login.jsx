@@ -1,3 +1,4 @@
+// src/pages/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,7 +38,7 @@ const Login = () => {
         {error && <p className="text-red-500">{error}</p>}
         <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
         <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit">Login</button>
+        <button type="submit" className="bg-blue-500 text-white py-2 w-full">Login</button>
       </form>
     </div>
   );

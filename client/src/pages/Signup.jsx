@@ -1,10 +1,11 @@
 // src/pages/Signup.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,50 +19,25 @@ const Signup = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-      const data = await response.json();
       if (response.ok) {
-        // Navigate to home page after successful signup
-        console.log('User registered:', data);
-        navigate('/'); // Redirect to home
+        navigate('/login'); // Redirect to login after signup
       } else {
-        console.error(data.error);
+        const data = await response.json();
+        setError(data.error || 'Signup failed');
       }
     } catch (error) {
-      console.error('Error signing up:', error);
+      setError('Error signing up. Please try again.');
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 py-6 max-w-md w-full">
-        <h2 className="text-2xl mb-4 text-center">Sign Up</h2>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          onChange={handleChange}
-          className="w-full p-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-          className="w-full p-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
-          className="w-full p-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          required
-        />
-        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300">
-          Sign Up
-        </button>
+        <h2 className="text-2xl mb-4 text-center">Signup</h2>
+        {error && <p className="text-red-500">{error}</p>}
+        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+        <button type="submit" className="bg-blue-500 text-white py-2 w-full">Signup</button>
       </form>
     </div>
   );
