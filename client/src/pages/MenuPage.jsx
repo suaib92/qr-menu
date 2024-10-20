@@ -11,7 +11,7 @@ const MenuPage = () => {
 
   const fetchMenuItems = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/menu');
+      const response = await fetch('https://qr-menu-ya5b.onrender.com/api/menu');
       if (!response.ok) throw new Error(`Error: ${response.statusText}`);
       const data = await response.json();
       console.log(data); // Verify data structure

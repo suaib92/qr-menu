@@ -19,7 +19,7 @@ const AdminDashboard = () => {
 
   const fetchMenuItems = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/menu');
+      const response = await fetch('https://qr-menu-ya5b.onrender.com/api/menu');
       if (!response.ok) throw new Error('Failed to fetch menu items');
       const data = await response.json();
       setMenuItems(data);
@@ -29,7 +29,7 @@ const AdminDashboard = () => {
   };
 
   const generateQRCodeForMenu = async () => {
-    const url = 'http://localhost:3000/menu'; // URL for the menu page
+    const url = 'https://qr-menu-omega-swart.vercel.app/menu'; // URL for the menu page
     const qrCode = await generateQRCode(url);
     setQrCodeURL(qrCode); // Store the QR code URL
   };
@@ -41,7 +41,7 @@ const AdminDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch('http://localhost:5000/api/menu', {
+      await fetch('https://qr-menu-ya5b.onrender.com/api/menu', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -55,7 +55,7 @@ const AdminDashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/menu/${id}`, { method: 'DELETE' });
+      await fetch(`https://qr-menu-ya5b.onrender.com/api/menu/${id}`, { method: 'DELETE' });
       fetchMenuItems(); // Refresh after delete
     } catch (error) {
       console.error('Error deleting item:', error);
@@ -89,7 +89,7 @@ const AdminDashboard = () => {
           <div className="bg-white p-4 shadow rounded-lg">
             {qrCodeURL && (
               <div ref={qrCodeRef}>
-                <QRCode value="http://localhost:5173/menu" size={128} />
+                <QRCode value="https://qr-menu-omega-swart.vercel.app/menu" size={128} />
               </div>
             )}
           </div>
