@@ -22,7 +22,7 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        navigate('/admin');
+        navigate('/');
       } else {
         setError(data.error || 'Login failed');
       }
@@ -34,11 +34,30 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 py-6 max-w-md w-full">
-        <h2 className="text-2xl mb-4 text-center">Login</h2>
-        {error && <p className="text-red-500">{error}</p>}
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit" className="bg-blue-500 text-white py-2 w-full">Login</button>
+        <h2 className="text-3xl mb-6 text-center font-semibold">Welcome Back</h2>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Email" 
+          onChange={handleChange} 
+          required 
+          className="border border-gray-300 rounded w-full p-2 mb-4 focus:outline-none focus:border-blue-500"
+        />
+        <input 
+          type="password" 
+          name="password" 
+          placeholder="Password" 
+          onChange={handleChange} 
+          required 
+          className="border border-gray-300 rounded w-full p-2 mb-6 focus:outline-none focus:border-blue-500"
+        />
+        <button type="submit" className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-200 w-full">
+          Login
+        </button>
+        <p className="mt-4 text-center text-sm">
+          Don't have an account? <a href="/signup" className="text-blue-500 hover:underline">Signup</a>
+        </p>
       </form>
     </div>
   );

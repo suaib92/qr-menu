@@ -1,53 +1,52 @@
 // src/pages/MenuPage.js
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const MenuPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false); // State to track admin status
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('https://qr-menu-ya5b.onrender.com/api/menu');
-        if (!response.ok) throw new Error('Failed to fetch menu items');
+        const token = localStorage.getItem('token');
+        const response = await fetch('https://qr-menu-ya5b.onrender.com/api/menu', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Attach token in the header
+          },
+        });
+
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(errorMessage || 'Failed to fetch menu items');
+        }
+
         const data = await response.json();
         setMenuItems(data);
       } catch (error) {
         console.error('Error fetching menu items:', error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    const checkAdminStatus = () => {
-      const userRole = localStorage.getItem('userRole'); // For example, from local storage
-      console.log('User role:', userRole); // Debugging log
-      setIsAdmin(userRole === 'admin'); // Check if the role is 'admin'
-      console.log('Is Admin:', userRole === 'admin'); // Debugging log
-    };
-
     fetchMenuItems();
-    checkAdminStatus(); // Check admin status on component mount
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="text-center mt-8">Loading...</div>;
+
+  if (error) return <div className="text-red-500 text-center mt-8">{error}</div>;
+
+  if (menuItems.length === 0) {
+    return <div className="text-center mt-8">No menu items available</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Menu</h1>
-        
-        {/* Admin Navigation Link */}
-        {isAdmin && (
-          <div className="mb-4 text-center">
-            <Link to="/admin" className="text-blue-500 hover:underline">
-              Go to Admin Dashboard
-            </Link>
-          </div>
-        )}
-        
         <ul className="divide-y divide-gray-200">
           {menuItems.map((item) => (
             <li key={item._id} className="flex justify-between items-center p-4">
