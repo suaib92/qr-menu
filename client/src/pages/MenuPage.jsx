@@ -9,10 +9,10 @@ const MenuPage = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('https://qr-menu-ya5b.onrender.com/api/menu', {
+        const response = await fetch('https://qr-menu-ya5b.onrender.com/api/menu/public', {
           headers: {
             'Content-Type': 'application/json',
-            // Authorization header removed for public access
+            // No Authorization header since it's public access
           },
         });
 
