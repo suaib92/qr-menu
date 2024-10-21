@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Signup = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -13,6 +14,7 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when submitting
     try {
       const response = await fetch('https://qr-menu-ya5b.onrender.com/api/auth/signup', {
         method: 'POST',
@@ -20,6 +22,8 @@ const Signup = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
+        // Optionally show success message here (e.g., a toast notification)
+        alert('Signup successful! Please log in.'); // Simple alert as feedback
         navigate('/login'); // Redirect to login after signup
       } else {
         const data = await response.json();
@@ -27,6 +31,8 @@ const Signup = () => {
       }
     } catch (error) {
       setError('Error signing up. Please try again.');
+    } finally {
+      setLoading(false); // Set loading to false after request is done
     }
   };
 
@@ -62,8 +68,8 @@ const Signup = () => {
           required 
           className="border border-gray-300 rounded w-full p-2 mb-6 focus:outline-none focus:border-blue-500"
         />
-        <button type="submit" className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-200 w-full">
-          Signup
+        <button type="submit" className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-200 w-full" disabled={loading}>
+          {loading ? 'Signing up...' : 'Signup'}
         </button>
         <p className="mt-4 text-center text-sm">
           Already have an account? <a href="/login" className="text-blue-500 hover:underline">Login</a>
