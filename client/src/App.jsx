@@ -1,4 +1,4 @@
-// App.js
+// src/App.js
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute'; // Assuming you have this component
@@ -18,7 +18,7 @@ const App = () => {
           </PrivateRoute>
         } 
       />
-      <Route path="/menu" element={<MenuPage />} />
+      <Route path="/menu" element={<MenuPage />} /> {/* Public route */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       {/* Redirect or handle other routes as needed */}

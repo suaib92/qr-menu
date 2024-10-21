@@ -1,13 +1,24 @@
 const MenuItem = require('../models/MenuItem');
 
+// Get all menu items (public access)
+exports.getAllMenuItems = async (req, res) => {
+  try {
+    const items = await MenuItem.find(); // Fetch all menu items
+    console.log('Fetched all menu items:', items); // Debugging
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching menu items' });
+  }
+};
+
 // Get all menu items for the logged-in user
-exports.getMenuItems = async (req, res) => {
+exports.getUserMenuItems = async (req, res) => {
   try {
     const items = await MenuItem.find({ userId: req.user.id }); // Fetch only user's menu items
     console.log('Fetched items for user:', req.user.id, items); // Debugging
     res.json(items);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching menu items' });
+    res.status(500).json({ error: 'Error fetching user menu items' });
   }
 };
 
