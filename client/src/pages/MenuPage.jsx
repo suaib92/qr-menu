@@ -9,10 +9,11 @@ const MenuPage = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('https://qr-menu-ya5b.onrender.com/api/menu/public', {
+        const token = localStorage.getItem('token');
+        const response = await fetch('https://qr-menu-ya5b.onrender.com/api/menu', {
           headers: {
             'Content-Type': 'application/json',
-            // No Authorization header since it's public access
+            Authorization: `Bearer ${token}`, // Attach token in the header
           },
         });
 

@@ -1,22 +1,6 @@
 const MenuItem = require('../models/MenuItem');
 
 // Get all menu items for the logged-in user
-// src/controllers/menuController.js
-
-// Get all public menu items
-exports.getPublicMenuItems = async (req, res) => {
-  try {
-    const items = await MenuItem.find(); // Fetch all menu items
-    console.log('Fetched public items:', items); // Debugging
-    res.json(items);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching public menu items' });
-  }
-};
-
-// Existing code...
-
-// Get all menu items for the logged-in user
 exports.getMenuItems = async (req, res) => {
   try {
     const items = await MenuItem.find({ userId: req.user.id }); // Fetch only user's menu items
@@ -26,7 +10,6 @@ exports.getMenuItems = async (req, res) => {
     res.status(500).json({ error: 'Error fetching menu items' });
   }
 };
-
 
 // Add new menu item
 exports.addMenuItem = async (req, res) => {
